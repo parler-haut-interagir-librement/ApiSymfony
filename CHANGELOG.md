@@ -35,7 +35,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the code coverage at 100 %.
 - `compose.yaml`: FrankenPHP in worker mode, with its workers restarted when a file changes, and PostgreSQL.
 - Sentry in the production environment, off while `SENTRY_DSN` is empty.
-- A GitHub Actions workflow: security, tests on PHP 8.5 and 8.6 with the coverage threshold, lints; the security files
-  of `phil/dev-tools` in `.github/`.
+- A GitHub Actions workflow: security, tests on PHP 8.5 and 8.6 with the coverage threshold and the migrations against
+  the Doctrine mapping (`castor test:schema`, also in `castor ci`), lints; the security files of `phil/dev-tools` in
+  `.github/`.
 - The README and its French mirror: the quick start, the API and its tokens, the tasks, the quality gates, the
   differences from MicroSymfony, what the template does not ship, the other PHIL templates and what is built with it.

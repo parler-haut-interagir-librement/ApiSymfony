@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=f531a4a66b07bd46238e54779885cc9b83eb2bc7f211552753220a42b1cf74a9 -->
+<!-- phil-dev source-sha256=6d0ec37c08c63c75a1de39848fce86ba4198d6096205b534086e06a46683eca8 -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -192,12 +192,13 @@ NelmioCorsBundle répond aux requêtes d'autres origines sur `/api`, depuis les 
 | `castor test` | Toutes les suites PHPUnit ; `--filter` et `--options` passent à PHPUnit. |
 | `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | Une suite. |
 | `castor test:next` | Les tests sur la prochaine version de PHP, dans son image Docker. |
+| `castor test:schema` | Les migrations sur une base SQLite neuve, puis son schéma comparé au *mapping* Doctrine. |
 | `castor coverage` | Le rapport de couverture HTML dans `var/coverage/`, et son seuil. |
 | `castor infection` | Les tests de mutation. |
 | `castor taint` | L'analyse de souillure de Psalm. |
 | `castor lint` | Toutes les vérifications, le *mapping* Doctrine, le contrat OpenAPI et l'analyse statique. |
 | `castor fix` | Rector, PHP-CS-Fixer, Twig-CS-Fixer, Biome et composer-normalize. |
-| `castor ci` | L'intégration continue, en local : la couverture, puis toutes les vérifications. |
+| `castor ci` | L'intégration continue, en local : la couverture, `test:schema`, puis toutes les vérifications. |
 | `castor hooks` | Les crochets git : les vérifications rapides des fichiers indexés avant chaque commit. |
 
 ## Portes de qualité 🚦
