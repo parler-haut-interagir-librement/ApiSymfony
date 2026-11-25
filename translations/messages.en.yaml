@@ -1,0 +1,31 @@
+brand:
+  name: 'Proclaim Honestly, Interact Liberally: ApiSymfony'
+  copyright: 'Proclaim Honestly, Interact Liberally'
+  html: '<b>Proclaim</b> <i>Honestly</i>, <b>Interact</b> <i>Liberally</i>: <b>Api</b><i>Symfony</i> 🕸'
+  info: 'A REST API template on Symfony %symfony% and API Platform, ready to use.'
+  tech: >-
+    The template is built on the latest versions of the technologies it uses: Symfony 8.2, PHP 8.5, API Platform 5,
+    FrankenPHP in worker mode, Doctrine ORM 3, PostgreSQL and many more.
+
+home:
+  readme: 'This page displays the <a target="_blank" rel="noopener noreferrer" href="%url%">%file%</a> file of the GitHub repository.'
+
+menu:
+  label: Menu
+  readme: 📒 README
+  api_docs: 🕸 API documentation
+  error: ❌ Custom error page
+  pico: ✨ Pico CSS documentation ⤴️
+
+header:
+  github: The ApiSymfony GitHub repository
+  dark_mode: Switch to dark mode
+  light_mode: Switch to light mode
+
+footer:
+  all_rights: All rights reserved
+  credit: >-
+    Derived from MicroSymfony, a Symfony minimalist application template by <a href="https://www.strangebuzz.com"
+    target="_blank" rel="noopener noreferrer">COil/Strangebuzz 🐝</a>, and by <a href="%contributors%" target="_blank"
+    rel="noopener noreferrer">other contributors</a>.
+  symfony: 'Symfony™ is a trademark of <a target="_blank" rel="noopener noreferrer" href="https://symfony.com/license">Symfony SAS</a>.'

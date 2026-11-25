@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <p>
+        {{ 'brand.tech'|trans }}
+        {{ 'home.readme'|trans({'%url%': website ~ '/blob/main/' ~ file, '%file%': file})|raw }}
+    </p>
+
+    <hr/>
+
+    {# The README is a trusted source: the `add_headers_anchors` filter flags its output as
+       safe HTML, so no `|raw` is needed here. The `[!NOTE]` GFM marker is stripped from the
+       Markdown source (before conversion) so it stays the last filter and keeps the safe flag. #}
+    {{ readme|replace({'[!NOTE]': ''})|markdown_to_html|add_headers_anchors }}
+
+    {# Uncomment and adapt to your needs.
+
+    <h1>ApiSymfony 🕸</h1>
+
+    <h2>About 🖋</h1>
+
+    <h2>Table of Contents 📖</h2>
+
+    <h2>Demos 🌈</h2>
+
+    <h2>Quick-start ⚡</h2>
+
+    <h2>Stack 🔗</h2>
+
+    <h2>Features 🚀</h2>
+
+    <h2>Notes 📒</h2>
+
+    <h2>Other good practices 👌</h2>
+
+    <h2>References 📚</h2>
+
+    <h2>Contributing 🤝</h2>
+
+    <h2>Security 🧯</h2>
+
+    <h2>Credits 🙏</h2>
+
+    <h2>License ⚖️</h2>
+
+    <h2>Built with ApiSymfony 🛠️️</h2>
+    #}
+{% endblock %}

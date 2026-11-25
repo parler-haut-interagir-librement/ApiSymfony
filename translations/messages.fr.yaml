@@ -1,0 +1,31 @@
+brand:
+  name: 'Parler Haut, Interagir Librement : ApiSymfony'
+  copyright: 'Parler Haut, Interagir Librement'
+  html: '<b>Parler</b> <i>Haut</i>, <b>Interagir</b> <i>Librement</i> : <b>Api</b><i>Symfony</i> 🕸'
+  info: 'Un gabarit d’API REST sur Symfony %symfony% et API Platform, prêt à l’emploi.'
+  tech: >-
+    Le gabarit repose sur les dernières versions des technologies qu’il emploie : Symfony 8.2, PHP 8.5, API Platform 5,
+    FrankenPHP en mode worker, Doctrine ORM 3, PostgreSQL et bien d’autres.
+
+home:
+  readme: 'Cette page affiche le fichier <a target="_blank" rel="noopener noreferrer" href="%url%">%file%</a> du dépôt GitHub.'
+
+menu:
+  label: Menu
+  readme: 📒 LISEZMOI
+  api_docs: 🕸 Documentation de l’API
+  error: ❌ Page d’erreur personnalisée
+  pico: ✨ Documentation de Pico CSS ⤴️
+
+header:
+  github: Le dépôt GitHub d’ApiSymfony
+  dark_mode: Passer au mode sombre
+  light_mode: Passer au mode clair
+
+footer:
+  all_rights: Tous droits réservés
+  credit: >-
+    Dérivé de MicroSymfony, un gabarit d’application Symfony minimaliste de <a href="https://www.strangebuzz.com"
+    target="_blank" rel="noopener noreferrer">COil/Strangebuzz 🐝</a>, et d’<a href="%contributors%" target="_blank"
+    rel="noopener noreferrer">autres contributeurs</a>.
+  symfony: 'Symfony™ est une marque commerciale de <a target="_blank" rel="noopener noreferrer" href="https://symfony.com/license">Symfony SAS</a>.'

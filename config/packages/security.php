@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+/**
+ * The API is stateless: a request carries a token of phil/api-keys-bundle in its Authorization header, checked by
+ * the access_token authenticator of Symfony. Reading is open; each operation that writes requires a scope of the
+ * token (see src/Entity/Book.php). The refusals are answered as problem details.
+ *
+ * The owners of the tokens are the clients below, kept in memory: an application with accounts replaces this
+ * provider with its own, an entity provider for instance.
+ *
+ * @see https://symfony.com/doc/current/security.html
+ */
+return App::config([
+    'security' => [
+        'providers' => [
+            'api_clients' => [
+                'memory' => [
+                    'users' => [
+                        'example-client' => ['roles' => ['ROLE_API_CLIENT']],
+                    ],
+                ],
+            ],
+        ],
+        'firewalls' => [
+            'dev' => [
+                // The profiler, the debug toolbar and the assets are never behind the firewall.
+                'pattern' => '^/(_profiler(/|$)|(_wdt|assets|bundles)/)',
+                'security' => false,
+            ],
+            'api' => [
+                'pattern' => '^/api(/|$)',
+                'stateless' => true,
+                'provider' => 'api_clients',
+                'entry_point' => 'phil_api_keys.problem_responder',
+                'access_token' => [
+                    'token_handler' => 'phil_api_keys.token_handler',
+                    'token_extractors' => ['phil_api_keys.token_extractor'],
+                    'failure_handler' => 'phil_api_keys.problem_responder',
+                    'realm' => 'api',
+                ],
+            ],
+            'main' => [
+                'lazy' => true,
+                'stateless' => true,
+                'provider' => 'api_clients',
+            ],
+        ],
+    ],
+]);
