@@ -127,7 +127,7 @@ API Platform turns each class marked `#[ApiResource]` into REST operations under
 The resources are written in JSON-LD (`application/ld+json`) or in JSON (`application/json`), as the `Accept` header
 asks; a change is sent as `application/merge-patch+json`. The collections are paginated, 30 items a page. API
 Platform is configured for REST only: no GraphQL. The configuration is in
-[config/packages/api_platform.php](config/packages/api_platform.php).
+[config/packages/api_platform.yaml](config/packages/api_platform.yaml).
 
 ### The tokens
 
@@ -140,9 +140,9 @@ is created; the database keeps only its keyed hash. It holds scopes, expires, an
          -H "Authorization: Bearer apisf_…" -H "Content-Type: application/ld+json" \
          -d '{"title": "Kamouraska", "author": "Anne Hébert"}'
 
-`castor token` creates a token for `example-client`, the client [config/packages/security.php](config/packages/security.php)
+`castor token` creates a token for `example-client`, the client [config/packages/security.yaml](config/packages/security.yaml)
 keeps in memory, with the scope `books:write`. The scopes are declared in
-[config/packages/phil_api_keys.php](config/packages/phil_api_keys.php), and each operation that writes names the one
+[config/packages/phil_api_keys.yaml](config/packages/phil_api_keys.yaml), and each operation that writes names the one
 it requires in its `security` expression: `is_granted('API_SCOPE', 'books:write')`. `bin/console phil:api-keys:list`,
 `phil:api-keys:revoke` and `phil:api-keys:purge-expired` manage the tokens.
 
@@ -210,7 +210,7 @@ its reason.
 | `castor lint:php` | PHP-CS-Fixer: `@Symfony`, `@Symfony:risky`, strict types and strict comparisons. |
 | `castor lint:twig` | `lint:twig`, then the code style of the templates. |
 | `castor lint:js` | Biome on the Stimulus controllers. |
-| `castor lint:yaml`, `lint:container` | The YAML files, the messages included, and the container. |
+| `castor lint:yaml`, `lint:container` | The YAML files, `config/` and the messages included, and the container. |
 | `castor lint:doctrine` | The Doctrine mapping. |
 | `castor lint:openapi` | The OpenAPI document against the contract of an unversioned REST and JSON API. |
 | `castor stan` | PHPStan at the maximum level, with the Doctrine and Symfony extensions, type coverage at 100 %, a cognitive complexity limit and forbidden calls. |
@@ -243,7 +243,7 @@ PHIL identity and the credit to Strangebuzz.
 
 Create an entity with `bin/console make:entity --api-resource`, or a class of `src/ApiResource/` with a state provider
 and processor for what Doctrine does not keep. Give each operation that writes a `security` expression on a scope,
-declare that scope in `config/packages/phil_api_keys.php`, write the migration through the schema API, as
+declare that scope in `config/packages/phil_api_keys.yaml`, write the migration through the schema API, as
 [the first one](migrations/Version20261125120000.php) does, and add its tests under `tests/Api/`.
 
 ### Accounts
@@ -257,6 +257,22 @@ provider, an entity provider for instance, and the members create their tokens o
 `phil/api-contract-bundle` keeps the idempotency keys in the table `phil_idempotency`: a controller marked
 `#[Idempotent]` runs once per `Idempotency-Key` and replays its response. A controller marked `#[DeprecatedEndpoint]`
 announces its `Deprecation` and `Sunset` headers.
+
+### YAML configuration files
+
+The configuration of Symfony, of API Platform and of the bundles is in YAML, under `config/`:
+`config/packages/*.yaml`, with `when@dev`, `when@test` and `when@prod` blocks for what changes by environment,
+`config/routes.yaml`, `config/routes/*.yaml` and `config/services.yaml`. A Flex recipe adds its files in the same
+format. Only `config/bundles.php` and `config/preload.php` stay PHP. `castor lint:yaml` checks every file of
+`config/`, and `castor lint:container` checks the container they build.
+
+```yaml
+# config/packages/phil_api_keys.yaml
+phil_api_keys:
+    scopes:
+        'books:write':
+            description: 'Create, change and delete the books'
+```
 
 ### Languages
 

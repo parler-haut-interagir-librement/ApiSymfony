@@ -41,7 +41,7 @@ castor ci                        # coverage, then every lint
 5. Every operation that writes declares a `security` expression on a scope of the token: `is_granted('API_SCOPE', …)`.
 6. Dates are never compared with `==` nor `===`: compare their timestamps or use `<` and `>`.
 7. Migrations describe their tables through the schema API of Doctrine DBAL, so that they run on every platform.
-8. Configuration files are PHP, under `config/`.
+8. Configuration files are YAML, under `config/`; only `config/bundles.php` and `config/preload.php` are PHP.
 
 ## Tests
 

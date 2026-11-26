@@ -1,0 +1,5 @@
+# The operations of the API resources, their documentation and their entry point, under /api.
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /api

@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=6d0ec37c08c63c75a1de39848fce86ba4198d6096205b534086e06a46683eca8 -->
+<!-- phil-dev source-sha256=57905b46f6e24be8e404edf7c0779075410795bc81ea5735bdcaa89ebcfc849e -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -131,7 +131,7 @@ API Platform fait de chaque classe marquée `#[ApiResource]` des opérations RES
 Les ressources s'écrivent en JSON-LD (`application/ld+json`) ou en JSON (`application/json`), selon l'en-tête
 `Accept` ; une modification s'envoie en `application/merge-patch+json`. Les collections sont paginées, 30 éléments par
 page. API Platform est configuré pour REST seulement : pas de GraphQL. La configuration est dans
-[config/packages/api_platform.php](config/packages/api_platform.php).
+[config/packages/api_platform.yaml](config/packages/api_platform.yaml).
 
 ### Les jetons
 
@@ -145,9 +145,9 @@ renouvelé :
          -H "Authorization: Bearer apisf_…" -H "Content-Type: application/ld+json" \
          -d '{"title": "Kamouraska", "author": "Anne Hébert"}'
 
-`castor token` crée un jeton pour `example-client`, le client que [config/packages/security.php](config/packages/security.php)
+`castor token` crée un jeton pour `example-client`, le client que [config/packages/security.yaml](config/packages/security.yaml)
 garde en mémoire, avec la portée `books:write`. Les portées sont déclarées dans
-[config/packages/phil_api_keys.php](config/packages/phil_api_keys.php), et chaque opération qui écrit nomme celle
+[config/packages/phil_api_keys.yaml](config/packages/phil_api_keys.yaml), et chaque opération qui écrit nomme celle
 qu'elle exige dans son expression `security` : `is_granted('API_SCOPE', 'books:write')`.
 `bin/console phil:api-keys:list`, `phil:api-keys:revoke` et `phil:api-keys:purge-expired` gèrent les jetons.
 
@@ -216,7 +216,7 @@ l'application, chaque exception avec sa raison.
 | `castor lint:php` | PHP-CS-Fixer : `@Symfony`, `@Symfony:risky`, types stricts et comparaisons strictes. |
 | `castor lint:twig` | `lint:twig`, puis le style des gabarits. |
 | `castor lint:js` | Biome sur les contrôleurs Stimulus. |
-| `castor lint:yaml`, `lint:container` | Les fichiers YAML, les messages compris, et le conteneur. |
+| `castor lint:yaml`, `lint:container` | Les fichiers YAML, `config/` et les messages compris, et le conteneur. |
 | `castor lint:doctrine` | Le *mapping* Doctrine. |
 | `castor lint:openapi` | Le document OpenAPI selon le contrat d'une API REST et JSON sans numéro de version. |
 | `castor stan` | PHPStan au niveau maximal, avec les extensions Doctrine et Symfony, la couverture des types à 100 %, une limite de complexité cognitive et des appels interdits. |
@@ -249,7 +249,7 @@ anglais et en français, l'identité de PHIL et le crédit à Strangebuzz.
 
 Créez une entité avec `bin/console make:entity --api-resource`, ou une classe de `src/ApiResource/` avec un
 fournisseur et un processeur d'état pour ce que Doctrine ne garde pas. Donnez à chaque opération qui écrit une
-expression `security` sur une portée, déclarez cette portée dans `config/packages/phil_api_keys.php`, écrivez la
+expression `security` sur une portée, déclarez cette portée dans `config/packages/phil_api_keys.yaml`, écrivez la
 migration par l'API de schéma, comme [la première](migrations/Version20261125120000.php), et ajoutez ses tests sous
 `tests/Api/`.
 
@@ -265,6 +265,22 @@ applications.
 `phil/api-contract-bundle` garde les clés d'idempotence dans la table `phil_idempotency` : un contrôleur marqué
 `#[Idempotent]` s'exécute une fois par `Idempotency-Key` et rejoue sa réponse. Un contrôleur marqué
 `#[DeprecatedEndpoint]` annonce ses en-têtes `Deprecation` et `Sunset`.
+
+### Fichiers de configuration YAML
+
+La configuration de Symfony, d'API Platform et des bundles est en YAML, sous `config/` :
+`config/packages/*.yaml`, avec des blocs `when@dev`, `when@test` et `when@prod` pour ce qui change selon
+l'environnement, `config/routes.yaml`, `config/routes/*.yaml` et `config/services.yaml`. Une recette Flex ajoute ses
+fichiers dans le même format. Seuls `config/bundles.php` et `config/preload.php` restent en PHP. `castor lint:yaml`
+vérifie chaque fichier de `config/`, et `castor lint:container` vérifie le conteneur qu'ils construisent.
+
+```yaml
+# config/packages/phil_api_keys.yaml
+phil_api_keys:
+    scopes:
+        'books:write':
+            description: 'Create, change and delete the books'
+```
 
 ### Langues
 
