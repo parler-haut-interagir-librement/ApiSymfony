@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 [MicroSymfony](https://github.com/parler-haut-interagir-librement/MicroSymfony), the PHIL version of
 [strangebuzz/MicroSymfony](https://github.com/strangebuzz/MicroSymfony); its own changes are listed here.
 
-## [Unreleased]
+## [8.2.0-RC1] - 2026-11-25
 
 ### Added
 
