@@ -26,9 +26,9 @@ return [
     // the migrations use phil/idempotency.
     'unused' => ['ignore' => [
         'ext-iconv', 'ext-simplexml', 'api-platform/doctrine-orm', 'api-platform/openapi', 'api-platform/symfony', 'doctrine/doctrine-migrations-bundle',
-        'doctrine/migrations', 'league/commonmark', 'nelmio/cors-bundle', 'phil/api-contract',
+        'doctrine/migrations', 'league/commonmark', 'phil/api-contract',
         'phil/api-contract-bundle',
-        'phil/api-keys-bundle', 'phil/idempotency', 'sentry/sentry-symfony', 'symfony/asset', 'symfony/asset-mapper',
+        'phil/api-keys-bundle', 'phil/cors-bundle', 'phil/idempotency', 'sentry/sentry-symfony', 'symfony/asset', 'symfony/asset-mapper',
         'symfony/dotenv', 'symfony/flex', 'symfony/intl',
         'symfony/monolog-bundle', 'symfony/property-access', 'symfony/runtime',
         'symfony/stimulus-bundle', 'symfony/translation',

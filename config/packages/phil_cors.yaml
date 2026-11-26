@@ -1,0 +1,11 @@
+# Cross-origin requests, allowed on the API only, from the origins that CORS_ALLOW_ORIGIN matches: a regular expression
+# anchored by ^ and $. The preflights are answered before the router and the firewall, so no OPTIONS route is needed.
+# See vendor/phil/cors-bundle/doc/configuration.md for every option.
+phil_cors:
+    paths:
+        '^/api(/|$)':
+            allow_origin_patterns: ['%env(CORS_ALLOW_ORIGIN)%']
+            allow_methods: [GET, POST, PATCH, DELETE]
+            allow_headers: [Content-Type, Authorization]
+            expose_headers: [Link]
+            max_age: 3600

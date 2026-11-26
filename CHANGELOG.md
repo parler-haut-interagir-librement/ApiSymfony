@@ -18,6 +18,12 @@ The next version is 8.2.0-RC2.
 
 ### Changed
 
+- `phil/cors-bundle` ^0.1@alpha answers the cross-origin requests on `/api` instead of NelmioCorsBundle:
+  `config/packages/phil_cors.yaml` keeps the origins of `CORS_ALLOW_ORIGIN`, the methods, the headers and the
+  `max_age`, without credentials; preflights are answered before the firewall, every answer of `/api` varies on
+  `Origin`, and `CorsTest` checks a preflight, a simple request and a refused origin. Until that version is published,
+  a path repository resolves it to `../phil/packages/cors-bundle`, in a clone of the PHIL monorepo beside this one; the
+  repository is removed at the release, which installs it from Packagist.
 - The configuration back in YAML: `config/packages/*.yaml` with `when@dev`, `when@test` and `when@prod` blocks,
   `config/routes.yaml`, `config/routes/*.yaml` and `config/services.yaml`; only `config/bundles.php` and
   `config/preload.php` stay PHP. `castor lint:yaml` checks `config/` too.
@@ -35,6 +41,7 @@ The next version is 8.2.0-RC2.
 
 ### Removed
 
+- `nelmio/cors-bundle` and `config/packages/nelmio_cors.yaml`, replaced by `phil/cors-bundle`.
 - `StaticRoutesSmokeTest`, replaced by `RouteSmokeTest`.
 
 ## [8.2.0-RC1] - 2026-11-25
