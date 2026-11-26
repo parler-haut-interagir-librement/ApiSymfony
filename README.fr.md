@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=07c8d8fa7091e44b518dec5199c4de943681880672861d07fd93684fe2b266de -->
+<!-- phil-dev source-sha256=433eebebabd91b43691a5d07b89996b7015630692d676a0647447662d8261d4b -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -109,7 +109,7 @@ SQLite, PostgreSQL et MySQL sans changement.
 * [Doctrine ORM 3 (DBAL 4)](https://www.doctrine-project.org) et ses migrations, sur SQLite, PostgreSQL ou MySQL
 * [`phil/api-keys-bundle`](https://packagist.org/packages/phil/api-keys-bundle) et
   [`phil/api-contract-bundle`](https://packagist.org/packages/phil/api-contract-bundle)
-* [NelmioCorsBundle](https://symfony.com/bundles/NelmioCorsBundle/current/index.html)
+* [`phil/cors-bundle`](https://packagist.org/packages/phil/cors-bundle) pour les requêtes d'autres origines
 * [Twig 3](https://twig.symfony.com) et [Pico CSS 2](https://picocss.com) pour la page d'accueil, en anglais et en
   français
 * [Sentry](https://docs.sentry.io/platforms/php/guides/symfony/) pour les erreurs de l'environnement de production
@@ -176,8 +176,26 @@ vérification avec les tests.
 
 ### Les requêtes d'autres origines
 
-NelmioCorsBundle répond aux requêtes d'autres origines sur `/api`, depuis les origines de `CORS_ALLOW_ORIGIN` :
-`localhost` et `127.0.0.1` dans `.env`.
+[`phil/cors-bundle`](https://packagist.org/packages/phil/cors-bundle) répond aux requêtes d'autres origines sur `/api`,
+comme [config/packages/phil_cors.yaml](config/packages/phil_cors.yaml) les règle :
+
+* les origines que `CORS_ALLOW_ORIGIN` reconnaît, une expression régulière ancrée par `^` et `$` : `localhost` et
+  `127.0.0.1`, sur n'importe quel port, dans `.env` ; réglez les origines de vos interfaces dans `.env.local` ou dans
+  l'environnement du serveur ;
+* les méthodes `GET`, `POST`, `PATCH` et `DELETE`, les en-têtes de requête `Content-Type` et `Authorization`, l'en-tête
+  de réponse `Link` lisible par la page, les requêtes de pré-vérification gardées une heure par le navigateur ;
+* aucun justificatif d'identité : l'API lit un jeton porteur, jamais un témoin, donc aucune origine ne peut en envoyer
+  un.
+
+Le bundle répond aux requêtes de pré-vérification avant le routeur et le pare-feu, donc aucune route `OPTIONS` n'est
+nécessaire, et ajoute `Vary: Origin` à chaque réponse de `/api`. Une autre origine ne reçoit aucun
+`Access-Control-Allow-Origin`, ce que le navigateur lit comme un refus ; les pages hors de `/api` n'envoient aucun
+en-tête CORS. Une origine générique avec justificatifs, un motif non ancré ou l'origine `null` arrête l'application à
+sa première requête plutôt que d'ouvrir l'API. [CorsTest](tests/Api/CorsTest.php) vérifie ces règles.
+
+Tant que `phil/cors-bundle` 0.1.0-alpha n'est pas publié, `composer.json` le résout par un dépôt de type chemin vers
+`../phil/packages/cors-bundle`, dans un clone du monodépôt PHIL à côté de celui-ci ; ce dépôt est retiré à la sortie de
+ce gabarit, qui installe alors `phil/cors-bundle` depuis Packagist.
 
 ## Tâches 🧰
 
