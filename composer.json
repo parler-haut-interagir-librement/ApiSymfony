@@ -45,10 +45,10 @@
         "doctrine/orm": "^3.8",
         "doctrine/persistence": "^4.2",
         "league/commonmark": "^2.10",
-        "nelmio/cors-bundle": "^2.6",
         "phil/api-contract": "^0.1@alpha",
         "phil/api-contract-bundle": "^0.3@alpha",
         "phil/api-keys-bundle": "^0.2@alpha",
+        "phil/cors-bundle": "^0.1@alpha",
         "phil/idempotency": "^0.3@alpha",
         "sentry/sentry-symfony": "^5.17",
         "symfony/asset": "~8.2.0",
@@ -119,6 +119,15 @@
         "symfony/symfony": "*"
     },
     "repositories": [
+        {
+            "type": "path",
+            "url": "../phil/packages/cors-bundle",
+            "options": {
+                "versions": {
+                    "phil/cors-bundle": "0.1.0-alpha"
+                }
+            }
+        },
         {
             "type": "path",
             "url": "../dev-tools",

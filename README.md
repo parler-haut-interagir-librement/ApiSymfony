@@ -106,7 +106,7 @@ SQLite, PostgreSQL and MySQL without a change.
 * [Doctrine ORM 3 (DBAL 4)](https://www.doctrine-project.org) and its migrations, on SQLite, PostgreSQL or MySQL
 * [`phil/api-keys-bundle`](https://packagist.org/packages/phil/api-keys-bundle) and
   [`phil/api-contract-bundle`](https://packagist.org/packages/phil/api-contract-bundle)
-* [NelmioCorsBundle](https://symfony.com/bundles/NelmioCorsBundle/current/index.html)
+* [`phil/cors-bundle`](https://packagist.org/packages/phil/cors-bundle) for the cross-origin requests
 * [Twig 3](https://twig.symfony.com) and [Pico CSS 2](https://picocss.com) for the home page, in English and in French
 * [Sentry](https://docs.sentry.io/platforms/php/guides/symfony/) for the errors of the production environment
 * [PHPUnit 13](https://phpunit.de) and [Foundry](https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html)
@@ -170,8 +170,25 @@ and JSON API: no version in a path, JSON media types, problem details for the er
 
 ### Cross-origin requests
 
-NelmioCorsBundle answers the cross-origin requests on `/api`, from the origins of `CORS_ALLOW_ORIGIN`: `localhost` and
-`127.0.0.1` in `.env`.
+[`phil/cors-bundle`](https://packagist.org/packages/phil/cors-bundle) answers the cross-origin requests on `/api`, as
+[config/packages/phil_cors.yaml](config/packages/phil_cors.yaml) sets them:
+
+* the origins that `CORS_ALLOW_ORIGIN` matches, a regular expression anchored by `^` and `$`: `localhost` and
+  `127.0.0.1`, on any port, in `.env`; set the origins of your front ends in `.env.local` or in the environment of the
+  server;
+* the methods `GET`, `POST`, `PATCH` and `DELETE`, the request headers `Content-Type` and `Authorization`, the
+  response header `Link` readable by the page, preflights kept an hour by the browser;
+* no credentials: the API reads a bearer token, never a cookie, so no origin may send one.
+
+The bundle answers the preflights before the router and the firewall, so no `OPTIONS` route is needed, and adds
+`Vary: Origin` to every answer of `/api`. Another origin gets no `Access-Control-Allow-Origin`, which the browser reads
+as a refusal; the pages outside `/api` send no CORS header. A wildcard origin with credentials, an unanchored pattern
+or the origin `null` stops the application on its first request rather than open the API.
+[CorsTest](tests/Api/CorsTest.php) checks these rules.
+
+Until `phil/cors-bundle` 0.1.0-alpha is published, `composer.json` resolves it through a path repository to
+`../phil/packages/cors-bundle`, in a clone of the PHIL monorepo beside this one; that repository is removed at the
+release of this template, which then installs `phil/cors-bundle` from Packagist.
 
 ## Tasks 🧰
 
