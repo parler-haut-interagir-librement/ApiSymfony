@@ -175,7 +175,11 @@ NelmioCorsBundle answers the cross-origin requests on `/api`, from the origins o
 
 ## Tasks 🧰
 
-`castor` lists every task. The main ones:
+`castor` lists every task. The tests, the lints, the fixers, `ci` and `hooks` are the common tasks of
+[`phil/dev-tools`](https://packagist.org/packages/phil/dev-tools), which `castor.php` imports from
+`vendor/phil/dev-tools/resources/castor/tasks.php` and sets through its `PHIL_CASTOR` constant: the suites, the
+coverage threshold, and the checks of this application that `lint` and `ci` call after theirs (`lint:doctrine`,
+`lint:openapi`, `test:schema`). `castor.php` keeps the tasks of this application only. The main ones:
 
 | Task | What it does |
 |---|---|
@@ -184,7 +188,7 @@ NelmioCorsBundle answers the cross-origin requests on `/api`, from the origins o
 | `castor migrate` | The migrations, on the database of `DATABASE_URL`. |
 | `castor token` | An API token for the example client, with the scope `books:write`. |
 | `castor test` | Every PHPUnit suite; `--filter` and `--options` pass on to PHPUnit. |
-| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | One suite. |
+| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | One suite; `castor test:suite <name>` runs any suite of `phpunit.dist.xml`. |
 | `castor test:next` | The tests on the next PHP version, in its Docker image. |
 | `castor test:schema` | The migrations on a fresh SQLite database, then its schema compared with the Doctrine mapping. |
 | `castor coverage` | The HTML coverage report in `var/coverage/`, and its threshold. |
@@ -192,7 +196,7 @@ NelmioCorsBundle answers the cross-origin requests on `/api`, from the origins o
 | `castor taint` | The taint analysis of Psalm. |
 | `castor lint` | Every lint, the Doctrine mapping, the OpenAPI contract and the static analysis. |
 | `castor fix` | Rector, PHP-CS-Fixer, Twig-CS-Fixer, Biome and composer-normalize. |
-| `castor ci` | The continuous integration, locally: coverage, `test:schema`, then every lint. |
+| `castor ci` | The continuous integration, locally: coverage, every lint, then `test:schema`. |
 | `castor hooks` | The git hooks: the fast checks on the staged files before each commit. |
 
 ## Quality gates 🚦
@@ -213,9 +217,17 @@ its reason.
 | `castor lint:yaml`, `lint:container` | The YAML files, `config/` and the messages included, and the container. |
 | `castor lint:doctrine` | The Doctrine mapping. |
 | `castor lint:openapi` | The OpenAPI document against the contract of an unversioned REST and JSON API. |
-| `castor stan` | PHPStan at the maximum level, with the Doctrine and Symfony extensions, type coverage at 100 %, a cognitive complexity limit and forbidden calls. |
+| `castor stan` (`lint:analyse`) | PHPStan at the maximum level, with the Doctrine and Symfony extensions, type coverage at 100 %, a cognitive complexity limit and forbidden calls. |
 | `castor lint:rector` | Rector has nothing left to change. |
 | `castor lint:architecture` | Arkitect on the shape of the classes; Deptrac on the libraries `src/` may use, listed in `phil-dev.php`. |
+
+The functional suite holds the route smoke test of `phil/dev-tools` (`RouteSmokeTesting`): every GET route that needs
+no parameter answers without a server error, the home page, `/api/slugify`, `/api/docs`, the entry point of the API and
+the GET collection of each resource included.
+
+Until `phil/dev-tools` 0.2.1-alpha is published, `composer.json` resolves it through a path repository to a
+`../dev-tools` clone beside this one; that repository is removed at the release of this template, which then installs
+`phil/dev-tools` from Packagist.
 
 The taint analysis of Psalm, `castor taint`, runs on its own, before a release and once a week. The `.github/`
 directory also holds the security files of `phil/dev-tools`: Dependabot, with a cooldown of seven days, the OpenSSF

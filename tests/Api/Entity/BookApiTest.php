@@ -8,7 +8,6 @@ use ApiPlatform\Test\ApiTestCase;
 use App\Entity\Book;
 use App\Tests\Factory\BookFactory;
 use DateTimeImmutable;
-use Override;
 use Phil\ApiKeysBundle\Application\ApiTokens;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Zenstruck\Foundry\Test\Factories;
@@ -25,9 +24,6 @@ final class BookApiTest extends ApiTestCase
 {
     use Factories;
     use ResetDatabase;
-
-    #[Override]
-    protected static ?bool $alwaysBootKernel = false;
 
     public function testEveryoneReadsTheBooks(): void
     {

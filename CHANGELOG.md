@@ -8,11 +8,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+The next version is 8.2.0-RC2.
+
+### Added
+
+- The route smoke test of `phil/dev-tools` in the functional suite, `RouteSmokeTest`: every GET route that needs no
+  parameter answers under 500, `/api/docs`, the entry point of the API and the GET collection of each resource
+  included; only the error routes of API Platform, the profiler and the error preview are left out.
+
 ### Changed
 
 - The configuration back in YAML: `config/packages/*.yaml` with `when@dev`, `when@test` and `when@prod` blocks,
   `config/routes.yaml`, `config/routes/*.yaml` and `config/services.yaml`; only `config/bundles.php` and
   `config/preload.php` stay PHP. `castor lint:yaml` checks `config/` too.
+- `phil/dev-tools` ^0.2.1@alpha. Until that version is published, a path repository resolves it to a `../dev-tools`
+  clone beside this one; the repository is removed at the release, which installs it from Packagist.
+- `castor.php` imports the common tasks of `phil/dev-tools` (`resources/castor/tasks.php`) and sets them through
+  `PHIL_CASTOR`: it keeps only the tasks of this application (the servers, the database, the API token,
+  `test:schema`, `lint:doctrine`, `lint:openapi`, `helpers:check-requirements`). The task names stay; `castor lint`
+  runs `lint:doctrine` and `lint:openapi` after the common lints, `castor ci` runs `test:schema` after them, and
+  `test:suite` is new. `test:coverage` reads the threshold itself: `bin/coverage-checker.php` is gone, and PHPUnit
+  writes its coverage summary without colours.
+- Every requirement of `composer.json` at its latest minor (`symfony/ux-turbo` ^3.8, `symfony/stimulus-bundle` ^3.8,
+  `twig/twig` ^3.31, `symfony/flex` ^2.12, `phpunit/phpunit` ^13.4…), the Symfony components at `~8.2.0`, and the lock
+  updated.
+
+### Removed
+
+- `StaticRoutesSmokeTest`, replaced by `RouteSmokeTest`.
 
 ## [8.2.0-RC1] - 2026-11-25
 
