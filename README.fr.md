@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=57905b46f6e24be8e404edf7c0779075410795bc81ea5735bdcaa89ebcfc849e -->
+<!-- phil-dev source-sha256=07c8d8fa7091e44b518dec5199c4de943681880672861d07fd93684fe2b266de -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -181,7 +181,11 @@ NelmioCorsBundle répond aux requêtes d'autres origines sur `/api`, depuis les 
 
 ## Tâches 🧰
 
-`castor` liste toutes les tâches. Les principales :
+`castor` liste toutes les tâches. Les tests, les vérifications, les correcteurs, `ci` et `hooks` sont les tâches
+communes de [`phil/dev-tools`](https://packagist.org/packages/phil/dev-tools), que `castor.php` importe depuis
+`vendor/phil/dev-tools/resources/castor/tasks.php` et règle par sa constante `PHIL_CASTOR` : les suites, le seuil de
+couverture, et les contrôles de cette application que `lint` et `ci` appellent après les leurs (`lint:doctrine`,
+`lint:openapi`, `test:schema`). `castor.php` ne garde que les tâches de cette application. Les principales :
 
 | Tâche | Ce qu'elle fait |
 |---|---|
@@ -190,7 +194,7 @@ NelmioCorsBundle répond aux requêtes d'autres origines sur `/api`, depuis les 
 | `castor migrate` | Les migrations, sur la base de `DATABASE_URL`. |
 | `castor token` | Un jeton d'API pour le client d'exemple, avec la portée `books:write`. |
 | `castor test` | Toutes les suites PHPUnit ; `--filter` et `--options` passent à PHPUnit. |
-| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | Une suite. |
+| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | Une suite ; `castor test:suite <nom>` lance n'importe quelle suite de `phpunit.dist.xml`. |
 | `castor test:next` | Les tests sur la prochaine version de PHP, dans son image Docker. |
 | `castor test:schema` | Les migrations sur une base SQLite neuve, puis son schéma comparé au *mapping* Doctrine. |
 | `castor coverage` | Le rapport de couverture HTML dans `var/coverage/`, et son seuil. |
@@ -198,7 +202,7 @@ NelmioCorsBundle répond aux requêtes d'autres origines sur `/api`, depuis les 
 | `castor taint` | L'analyse de souillure de Psalm. |
 | `castor lint` | Toutes les vérifications, le *mapping* Doctrine, le contrat OpenAPI et l'analyse statique. |
 | `castor fix` | Rector, PHP-CS-Fixer, Twig-CS-Fixer, Biome et composer-normalize. |
-| `castor ci` | L'intégration continue, en local : la couverture, `test:schema`, puis toutes les vérifications. |
+| `castor ci` | L'intégration continue, en local : la couverture, toutes les vérifications, puis `test:schema`. |
 | `castor hooks` | Les crochets git : les vérifications rapides des fichiers indexés avant chaque commit. |
 
 ## Portes de qualité 🚦
@@ -219,9 +223,17 @@ l'application, chaque exception avec sa raison.
 | `castor lint:yaml`, `lint:container` | Les fichiers YAML, `config/` et les messages compris, et le conteneur. |
 | `castor lint:doctrine` | Le *mapping* Doctrine. |
 | `castor lint:openapi` | Le document OpenAPI selon le contrat d'une API REST et JSON sans numéro de version. |
-| `castor stan` | PHPStan au niveau maximal, avec les extensions Doctrine et Symfony, la couverture des types à 100 %, une limite de complexité cognitive et des appels interdits. |
+| `castor stan` (`lint:analyse`) | PHPStan au niveau maximal, avec les extensions Doctrine et Symfony, la couverture des types à 100 %, une limite de complexité cognitive et des appels interdits. |
 | `castor lint:rector` | Rector n'a plus rien à changer. |
 | `castor lint:architecture` | Arkitect sur la forme des classes ; Deptrac sur les librairies que `src/` peut employer, listées dans `phil-dev.php`. |
+
+La suite fonctionnelle contient le test de fumée des routes de `phil/dev-tools` (`RouteSmokeTesting`) : chaque route GET
+qui n'exige aucun paramètre répond sans erreur de serveur, la page d'accueil, `/api/slugify`, `/api/docs`, le point
+d'entrée de l'API et la collection GET de chaque ressource compris.
+
+Tant que `phil/dev-tools` 0.2.1-alpha n'est pas publié, `composer.json` le résout par un dépôt de type chemin vers un
+clone `../dev-tools` voisin de celui-ci ; ce dépôt est retiré à la sortie de ce gabarit, qui installe alors
+`phil/dev-tools` depuis Packagist.
 
 L'analyse de souillure de Psalm, `castor taint`, tourne à part, avant une sortie et une fois par semaine. Le
 répertoire `.github/` porte aussi les fichiers de sécurité de `phil/dev-tools` : Dependabot, avec un délai de sept
