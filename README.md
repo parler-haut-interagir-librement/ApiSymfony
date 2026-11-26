@@ -186,10 +186,6 @@ as a refusal; the pages outside `/api` send no CORS header. A wildcard origin wi
 or the origin `null` stops the application on its first request rather than open the API.
 [CorsTest](tests/Api/CorsTest.php) checks these rules.
 
-Until `phil/cors-bundle` 0.1.0-alpha is published, `composer.json` resolves it through a path repository to
-`../phil/packages/cors-bundle`, in a clone of the PHIL monorepo beside this one; that repository is removed at the
-release of this template, which then installs `phil/cors-bundle` from Packagist.
-
 ## Tasks 🧰
 
 `castor` lists every task. The tests, the lints, the fixers, `ci` and `hooks` are the common tasks of
@@ -241,10 +237,6 @@ its reason.
 The functional suite holds the route smoke test of `phil/dev-tools` (`RouteSmokeTesting`): every GET route that needs
 no parameter answers without a server error, the home page, `/api/slugify`, `/api/docs`, the entry point of the API and
 the GET collection of each resource included.
-
-Until `phil/dev-tools` 0.2.1-alpha is published, `composer.json` resolves it through a path repository to a
-`../dev-tools` clone beside this one; that repository is removed at the release of this template, which then installs
-`phil/dev-tools` from Packagist.
 
 The taint analysis of Psalm, `castor taint`, runs on its own, before a release and once a week. The `.github/`
 directory also holds the security files of `phil/dev-tools`: Dependabot, with a cooldown of seven days, the OpenSSF

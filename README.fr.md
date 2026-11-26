@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=433eebebabd91b43691a5d07b89996b7015630692d676a0647447662d8261d4b -->
+<!-- phil-dev source-sha256=d499efc9b57fbc0d3f25958053f9fbc6e325245b34c23ec968d3d015bf6ca90f -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -193,10 +193,6 @@ nécessaire, et ajoute `Vary: Origin` à chaque réponse de `/api`. Une autre or
 en-tête CORS. Une origine générique avec justificatifs, un motif non ancré ou l'origine `null` arrête l'application à
 sa première requête plutôt que d'ouvrir l'API. [CorsTest](tests/Api/CorsTest.php) vérifie ces règles.
 
-Tant que `phil/cors-bundle` 0.1.0-alpha n'est pas publié, `composer.json` le résout par un dépôt de type chemin vers
-`../phil/packages/cors-bundle`, dans un clone du monodépôt PHIL à côté de celui-ci ; ce dépôt est retiré à la sortie de
-ce gabarit, qui installe alors `phil/cors-bundle` depuis Packagist.
-
 ## Tâches 🧰
 
 `castor` liste toutes les tâches. Les tests, les vérifications, les correcteurs, `ci` et `hooks` sont les tâches
@@ -248,10 +244,6 @@ l'application, chaque exception avec sa raison.
 La suite fonctionnelle contient le test de fumée des routes de `phil/dev-tools` (`RouteSmokeTesting`) : chaque route GET
 qui n'exige aucun paramètre répond sans erreur de serveur, la page d'accueil, `/api/slugify`, `/api/docs`, le point
 d'entrée de l'API et la collection GET de chaque ressource compris.
-
-Tant que `phil/dev-tools` 0.2.1-alpha n'est pas publié, `composer.json` le résout par un dépôt de type chemin vers un
-clone `../dev-tools` voisin de celui-ci ; ce dépôt est retiré à la sortie de ce gabarit, qui installe alors
-`phil/dev-tools` depuis Packagist.
 
 L'analyse de souillure de Psalm, `castor taint`, tourne à part, avant une sortie et une fois par semaine. Le
 répertoire `.github/` porte aussi les fichiers de sécurité de `phil/dev-tools` : Dependabot, avec un délai de sept

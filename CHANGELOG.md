@@ -6,9 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 [MicroSymfony](https://github.com/parler-haut-interagir-librement/MicroSymfony), the PHIL version of
 [strangebuzz/MicroSymfony](https://github.com/strangebuzz/MicroSymfony); its own changes are listed here.
 
-## Unreleased
-
-The next version is 8.2.0-RC2.
+## [8.2.0-RC2] - 2026-11-26
 
 ### Added
 
@@ -18,17 +16,14 @@ The next version is 8.2.0-RC2.
 
 ### Changed
 
-- `phil/cors-bundle` ^0.1@alpha answers the cross-origin requests on `/api` instead of NelmioCorsBundle:
+- `phil/cors-bundle` ^0.1.0@alpha answers the cross-origin requests on `/api` instead of NelmioCorsBundle:
   `config/packages/phil_cors.yaml` keeps the origins of `CORS_ALLOW_ORIGIN`, the methods, the headers and the
   `max_age`, without credentials; preflights are answered before the firewall, every answer of `/api` varies on
-  `Origin`, and `CorsTest` checks a preflight, a simple request and a refused origin. Until that version is published,
-  a path repository resolves it to `../phil/packages/cors-bundle`, in a clone of the PHIL monorepo beside this one; the
-  repository is removed at the release, which installs it from Packagist.
+  `Origin`, and `CorsTest` checks a preflight, a simple request and a refused origin.
 - The configuration back in YAML: `config/packages/*.yaml` with `when@dev`, `when@test` and `when@prod` blocks,
   `config/routes.yaml`, `config/routes/*.yaml` and `config/services.yaml`; only `config/bundles.php` and
   `config/preload.php` stay PHP. `castor lint:yaml` checks `config/` too.
-- `phil/dev-tools` ^0.2.1@alpha. Until that version is published, a path repository resolves it to a `../dev-tools`
-  clone beside this one; the repository is removed at the release, which installs it from Packagist.
+- `phil/dev-tools` ^0.2.1@alpha.
 - `castor.php` imports the common tasks of `phil/dev-tools` (`resources/castor/tasks.php`) and sets them through
   `PHIL_CASTOR`: it keeps only the tasks of this application (the servers, the database, the API token,
   `test:schema`, `lint:doctrine`, `lint:openapi`, `helpers:check-requirements`). The task names stay; `castor lint`
