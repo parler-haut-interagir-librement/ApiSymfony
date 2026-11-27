@@ -21,8 +21,10 @@ castor start                     # the Symfony binary's web server, on SQLite
 castor up                        # FrankenPHP in worker mode and PostgreSQL with Docker Compose
 castor migrate                   # the migrations on the database of DATABASE_URL
 castor token                     # an API token for the example client, with the scope books:write
-castor test                      # every PHPUnit suite
-castor test:api                  # one suite: unit, integration, api, functional, e2e
+castor seed                      # example books in an empty database, and an API token
+castor test                      # every PHPUnit suite but E2E
+castor test:api                  # one suite: unit, integration, api, functional
+castor test:e2e                  # the E2E suite in Chrome through Panther, alone
 castor test --filter=testSlugify # one test
 castor coverage                  # the coverage report and its threshold
 castor lint                      # every lint, the OpenAPI contract and the static analysis
@@ -47,8 +49,9 @@ castor ci                        # coverage, then every lint
 
 One directory per kind of test under `tests/`, mirroring `src/`: `Unit` (no kernel), `Integration` (the kernel),
 `Api` (requests to the API, with the `ApiTestCase` of API Platform and the factories of Foundry), `Functional` (pages
-through the kernel), `E2E` (a browser, once Panther is installed). Every test class names what it covers with
-`#[CoversClass]` or `#[CoversNothing]`; PHPUnit fails on a deprecation, a notice or a warning.
+through the kernel), `E2E` (Chrome driven by Panther, run by `castor test:e2e` only, with Chrome and chromedriver on the
+`PATH`). Every test class names what it covers with `#[CoversClass]` or `#[CoversNothing]`; PHPUnit fails on a
+deprecation, a notice or a warning.
 
 ## Quality gates
 

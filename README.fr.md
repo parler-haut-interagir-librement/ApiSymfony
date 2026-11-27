@@ -1,4 +1,4 @@
-<!-- phil-dev source-sha256=d499efc9b57fbc0d3f25958053f9fbc6e325245b34c23ec968d3d015bf6ca90f -->
+<!-- phil-dev source-sha256=6817bda9c6806c5ca68a144dccb2ae6f8590b7b8867d245de955d0640e58e776 -->
 # ApiSymfony 🕸
 
 [![Latest Version](https://img.shields.io/packagist/v/phil/apisymfony.svg?style=flat-square)](https://packagist.org/packages/phil/apisymfony)
@@ -48,7 +48,11 @@ diffère, et pourquoi, est listé dans [Différences avec MicroSymfony](#différ
 
 ## Démo 🌈
 
-Une démo d'ApiSymfony tournera dans le navigateur sur [ph-il.ca](https://ph-il.ca), avec les autres gabarits de PHIL.
+Une démo d'ApiSymfony tourne dans le navigateur sur [ph-il.ca](https://ph-il.ca), avec les autres gabarits de PHIL :
+PHP compilé en WebAssembly, avec le code du gabarit embarqué. Sa page de démo montre un jeton d'API d'exemple, et l'API
+démarre avec quelques livres : les deux sont créés à la construction de la démo, par `bin/console app:example:seed`
+sur la copie embarquée seulement, donc aucune application installée ne les contient. La base de données vit dans la
+mémoire de la page et repart de ces livres à chaque rechargement.
 
 ## Démarrage rapide ⚡
 
@@ -145,6 +149,9 @@ renouvelé :
          -H "Authorization: Bearer apisf_…" -H "Content-Type: application/ld+json" \
          -d '{"title": "Kamouraska", "author": "Anne Hébert"}'
 
+`castor seed` ajoute quelques livres d'exemple à une base vide et crée un tel jeton, affiché seul sur la dernière
+ligne : `bin/console app:example:seed`, avec `--expires` pour une durée de vie autre que celle par défaut.
+
 `castor token` crée un jeton pour `example-client`, le client que [config/packages/security.yaml](config/packages/security.yaml)
 garde en mémoire, avec la portée `books:write`. Les portées sont déclarées dans
 [config/packages/phil_api_keys.yaml](config/packages/phil_api_keys.yaml), et chaque opération qui écrit nomme celle
@@ -207,8 +214,10 @@ couverture, et les contrôles de cette application que `lint` et `ci` appellent 
 | `castor up`, `castor down` | FrankenPHP en mode *worker* et PostgreSQL, avec Docker Compose. |
 | `castor migrate` | Les migrations, sur la base de `DATABASE_URL`. |
 | `castor token` | Un jeton d'API pour le client d'exemple, avec la portée `books:write`. |
-| `castor test` | Toutes les suites PHPUnit ; `--filter` et `--options` passent à PHPUnit. |
-| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | Une suite ; `castor test:suite <nom>` lance n'importe quelle suite de `phpunit.dist.xml`. |
+| `castor seed` | Quelques livres d'exemple dans une base vide, et un jeton d'API pour le client d'exemple. |
+| `castor test` | Toutes les suites PHPUnit sauf E2E ; `--filter` et `--options` passent à PHPUnit. |
+| `castor test:unit`, `test:integration`, `test:api`, `test:functional` | Une suite ; `castor test:suite <nom>` lance n'importe quelle suite de `phpunit.dist.xml`. |
+| `castor test:e2e` | La suite E2E dans un vrai navigateur, Chrome piloté par Panther : la page d'accueil sur `localhost`, dont le sélecteur de thème prouve que son JavaScript s'exécute. Chrome et chromedriver doivent être dans le `PATH`, ou laissez `vendor/bin/bdi detect drivers` télécharger le pilote dans `drivers/` après `composer require --dev dbrekelmans/bdi`. Ni `castor test`, ni `castor coverage`, ni `castor ci`, ni l'intégration continue ne la lancent. |
 | `castor test:next` | Les tests sur la prochaine version de PHP, dans son image Docker. |
 | `castor test:schema` | Les migrations sur une base SQLite neuve, puis son schéma comparé au *mapping* Doctrine. |
 | `castor coverage` | Le rapport de couverture HTML dans `var/coverage/`, et son seuil. |

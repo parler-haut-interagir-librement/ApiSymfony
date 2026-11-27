@@ -47,7 +47,11 @@ why, is listed in [Differences from MicroSymfony](#differences-from-microsymfony
 
 ## Demo 🌈
 
-A demo of ApiSymfony will run in the browser on [ph-il.ca](https://ph-il.ca), with the other templates of PHIL.
+A demo of ApiSymfony runs in the browser on [ph-il.ca](https://ph-il.ca), with the other templates of PHIL: PHP
+compiled to WebAssembly, with the code of the template embedded. Its demo page shows an example API token, and the API
+starts with a few books: both are created when the demo is built, by `bin/console app:example:seed` on the embedded
+copy only, so no installed application holds them. The database lives in the memory of the page and starts again from
+these books at each reload.
 
 ## Quick-start ⚡
 
@@ -140,6 +144,9 @@ is created; the database keeps only its keyed hash. It holds scopes, expires, an
          -H "Authorization: Bearer apisf_…" -H "Content-Type: application/ld+json" \
          -d '{"title": "Kamouraska", "author": "Anne Hébert"}'
 
+`castor seed` adds a few example books to an empty database and creates such a token, printed alone on the last
+line: `bin/console app:example:seed`, with `--expires` for a lifetime other than the default one.
+
 `castor token` creates a token for `example-client`, the client [config/packages/security.yaml](config/packages/security.yaml)
 keeps in memory, with the scope `books:write`. The scopes are declared in
 [config/packages/phil_api_keys.yaml](config/packages/phil_api_keys.yaml), and each operation that writes names the one
@@ -200,8 +207,10 @@ coverage threshold, and the checks of this application that `lint` and `ci` call
 | `castor up`, `castor down` | FrankenPHP in worker mode and PostgreSQL, with Docker Compose. |
 | `castor migrate` | The migrations, on the database of `DATABASE_URL`. |
 | `castor token` | An API token for the example client, with the scope `books:write`. |
-| `castor test` | Every PHPUnit suite; `--filter` and `--options` pass on to PHPUnit. |
-| `castor test:unit`, `test:integration`, `test:api`, `test:functional`, `test:e2e` | One suite; `castor test:suite <name>` runs any suite of `phpunit.dist.xml`. |
+| `castor seed` | A few example books in an empty database, and an API token for the example client. |
+| `castor test` | Every PHPUnit suite but E2E; `--filter` and `--options` pass on to PHPUnit. |
+| `castor test:unit`, `test:integration`, `test:api`, `test:functional` | One suite; `castor test:suite <name>` runs any suite of `phpunit.dist.xml`. |
+| `castor test:e2e` | The E2E suite in a real browser, Chrome driven by Panther: the home page on `localhost`, whose theme switcher proves that its JavaScript runs. Chrome and chromedriver must be on the `PATH`, or let `vendor/bin/bdi detect drivers` download the driver into `drivers/` after `composer require --dev dbrekelmans/bdi`. Neither `castor test`, `castor coverage`, `castor ci` nor the continuous integration runs it. |
 | `castor test:next` | The tests on the next PHP version, in its Docker image. |
 | `castor test:schema` | The migrations on a fresh SQLite database, then its schema compared with the Doctrine mapping. |
 | `castor coverage` | The HTML coverage report in `var/coverage/`, and its threshold. |

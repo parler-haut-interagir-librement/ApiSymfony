@@ -31,6 +31,7 @@ Available commands:
   ci:all                      [ci] Run the continuous integration locally: coverage, then every lint
  db
   db:migrate                  [migrate] Run the migrations on the database of DATABASE_URL
+  db:seed                     [seed] Add example books to an empty database and create an API token for the example client
  docker
   docker:down                 [down] Stop the Docker Compose services
   docker:up                   [up] Start FrankenPHP in worker mode and PostgreSQL with Docker Compose, then migrate
