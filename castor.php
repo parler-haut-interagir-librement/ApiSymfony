@@ -25,7 +25,9 @@ use function Phil\DevTools\Castor\success;
 use function Phil\DevTools\Castor\title;
 
 const PHIL_CASTOR = [
-    'suites' => ['Unit', 'Integration', 'Api', 'Functional', 'E2E'],
+    // E2E is left out: it needs Chrome and chromedriver, and `castor test:e2e` runs it alone, outside `castor test`,
+    // `castor coverage`, `castor ci` and the continuous integration.
+    'suites' => ['Unit', 'Integration', 'Api', 'Functional'],
     'coverage_threshold' => 100,
     'lint_also' => ['lint_doctrine', 'lint_openapi'],
     'ci_also' => ['test_schema'],
@@ -127,6 +129,18 @@ function api_token(#[AsOption(description: 'The owner of the token')] string $ow
     title('api:token');
 
     return success(exit_code(sprintf('bin/console phil:api-keys:create %s %s --scope=books:write', escapeshellarg($owner), escapeshellarg('Created by castor api:token'))));
+}
+
+#[AsTask(name: 'seed', namespace: 'db', description: 'Add example books to an empty database and create an API token for the example client', aliases: ['seed'])]
+function db_seed(#[AsOption(description: 'When the token expires, such as "+30 days"')] ?string $expires = null): int
+{
+    title('db:seed');
+    $command = 'bin/console app:example:seed';
+    if ($expires !== null) {
+        $command .= ' --expires='.escapeshellarg($expires);
+    }
+
+    return success(exit_code($command));
 }
 
 // The checks of this application, which lint:all and ci:all call through PHIL_CASTOR ———————————————————————————

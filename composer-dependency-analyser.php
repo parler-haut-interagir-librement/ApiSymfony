@@ -23,7 +23,6 @@ return new Configuration()
         'sentry/sentry-symfony',
         'symfony/asset',
         'symfony/asset-mapper',
-        'symfony/console',
         'symfony/expression-language',
         'symfony/flex',
         'symfony/intl',

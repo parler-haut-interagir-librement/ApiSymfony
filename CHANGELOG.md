@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 [MicroSymfony](https://github.com/parler-haut-interagir-librement/MicroSymfony), the PHIL version of
 [strangebuzz/MicroSymfony](https://github.com/strangebuzz/MicroSymfony); its own changes are listed here.
 
+## Unreleased
+
+The next version is 8.2.0-RC3.
+
+### Added
+
+- `symfony/panther` 2.4 as a development requirement, its `ServerExtension` in `phpunit.dist.xml` and its variables in
+  `.env.test`: the E2E suite, `HomeActionTest`, opens the home page in Chrome on `localhost`, waits for the theme its
+  Stimulus controller sets on the root element, then switches it to dark with a click, which proves that the
+  JavaScript of the page runs. `castor test:e2e` runs it alone, with Chrome and chromedriver on the `PATH`; the suite
+  is left out of the `suites` of `PHIL_CASTOR`, so `castor test`, `castor coverage`, `castor ci` and the continuous
+  integration need no browser. `/drivers/` is ignored by git.
+- `bin/console app:example:seed` and `castor seed`: a few example books, in the public domain, added to an empty
+  database, and an API token for `example-client` with the scope `books:write`, printed alone on the last line;
+  `--expires` sets its lifetime. The browser demo runs it on its embedded copy when it is built, so its page shows the
+  example token and the API starts with books.
+
+### Removed
+
+- `AppControllerTest`, the E2E test on the kernel client with Panther commented out, replaced by `HomeActionTest`.
+
 ## [8.2.0-RC2] - 2026-11-26
 
 ### Added
